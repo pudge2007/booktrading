@@ -74,9 +74,7 @@ input.logout:focus {
 .book{
   position: relative;
   width: 150px;
-  display: inline-block;
-  float: left;
-  margin: 15px;
+  margin-bottom: 20px;
   -webkit-box-shadow: 0px 0px 3px 0px rgba(186,186,186,1);
   -moz-box-shadow: 0px 0px 3px 0px rgba(186,186,186,1);
   box-shadow: 0px 0px 3px 0px rgba(186,186,186,1);
@@ -97,7 +95,7 @@ input.logout:focus {
 }
 
 .book .content {
-  padding: 5px;
+  padding: 8px;
   text-align: center;
   display: flex;
   justify-content: center;
@@ -107,7 +105,7 @@ input.logout:focus {
   top: 0;
   bottom: 0;
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.75);
+  background-color: rgba(0, 0, 0, 0.85);
   transition: 0.5s;
 }
 
@@ -116,7 +114,8 @@ input.logout:focus {
 }
 
 .book .content p.title{
-  font-size: 14px;
+  font-size: 12px;
+  text-transform: uppercase;
   color: #fff;
   font-weight: bold;
 }
@@ -156,7 +155,7 @@ input.logout:focus {
   color: #96d0e6;
 }
 
-.page-profile {
+.page-profile, .page-new {
   margin-top: 40px;
 }
 
@@ -164,6 +163,23 @@ input.logout:focus {
   margin-bottom: 60px;
 }
 
+.page-profile .your_books > div {
+  border-right: 1px dashed #ccc;
+}
+
+.page-profile .your_books input{
+  width: 346px;
+} 
+
+.page-profile .your_books ul,
+.all_books ul{
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
+  flex-flow: row wrap;
+  padding-right: 100px;
+  margin-top: 40px;
+}
 
 .page-login {
   margin-top: 70px;

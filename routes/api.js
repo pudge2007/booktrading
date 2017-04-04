@@ -18,11 +18,24 @@ module.exports = function (app, passport) {
     });
   });
   
-  app.get('/user', isLoggedIn, function(req, res, next) {
+  app.put('/update', isLoggedIn, function(req, res) {
+    User.findOneAndUpdate({'local.username': req.user.local.username}, { $set:{'local.city': req.body.city, 'local.state': req.body.state}
+    }, {new: true}, function(err, r) {
+      if (err) throw err;
+      res.sendStatus(200)
+    })
+  });
+  
+  app.get('/user', isLoggedIn, function(req, res) {
     async.parallel({
       myBooks: function(callback){
         return Book.find({'username': req.user.local.username}, function(err, books) {
           return callback(err, books);
+        });
+      },
+      myProfile: function(callback){
+        return User.findOne({'local.username': req.user.local.username}, function(err, user) {
+          return callback(err, user);
         });
       },
       myReposts: function(callback){

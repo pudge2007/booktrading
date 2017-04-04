@@ -42,6 +42,7 @@ app.factory('getUsername', ['$rootScope', '$http', function($rootScope, $http) {
 }]);
 
 app.config(['$routeProvider', '$locationProvider', '$httpProvider', function($routeProvider, $locationProvider, $httpProvider) {
+  
   var checkLoggedin = function($q, $http, $location, $rootScope){
     var deferred = $q.defer();
     $http.get('/loggedin').then(function(response){
@@ -59,6 +60,7 @@ app.config(['$routeProvider', '$locationProvider', '$httpProvider', function($ro
   $routeProvider
     .when('/', { templateUrl: 'partials/home.ejs', controller: 'ListCtrl'})
     .when('/profile',{ templateUrl: 'partials/profile.ejs', controller: 'UserCtrl', resolve: { loggedin: checkLoggedin } })
+    .when('/settings',{ templateUrl: 'partials/settings.ejs', controller: 'UserCtrl', resolve: { loggedin: checkLoggedin } })
     .when('/login',{ templateUrl: 'partials/login.ejs', controller: 'LoginCtrl'})
     .when('/signup',{ templateUrl: 'partials/signup.ejs', controller: 'SignupCtrl'});
     
@@ -136,10 +138,13 @@ app.controller('ListCtrl', ['$scope','$http', '$rootScope','socket', function($s
 }]);
 
 //profile controller
-app.controller('UserCtrl', ['$scope', '$rootScope', '$route', '$http','socket', function($scope, $rootScope, $route, $http, socket){
+app.controller('UserCtrl', ['$scope', '$rootScope', '$route', '$http','socket', '$location', function($scope, $rootScope, $route, $http, socket, $location){
+  
+  $scope.username = $rootScope.username;
   
   $http.get('/user').then(function(response){
-    $scope.username = $rootScope.username;
+    $scope.city = response.data.myProfile.local.city;
+    $scope.state = response.data.myProfile.local.state;
     $scope.userBooks = response.data.myBooks;
     $scope.userReposts = response.data.myReposts;
   })
@@ -162,6 +167,20 @@ app.controller('UserCtrl', ['$scope', '$rootScope', '$route', '$http','socket', 
     socket.emit('deleteRepost', {id:id, user: $scope.username}, function(data) {
       if(data) $route.reload();
     });
+  }
+  
+  function ucFirst(str) {
+    if (!str) return str;
+    return str[0].toUpperCase() + str.slice(1);
+  }
+  
+  $scope.updateProfile = function() {
+    var updated = {city: ucFirst($scope.city), state: ucFirst($scope.state), username: $rootScope.username};
+    $scope.city ='';
+    $scope.state ='';
+    $http.put('/update', updated).then(function(response) {
+      $location.path('/profile');
+    })
   }
     
 }]);
