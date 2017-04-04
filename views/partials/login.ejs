@@ -1,0 +1,19 @@
+<div class="page-login text-center">
+    <div>
+        <h1>Login</h1>
+        <div class="errors">{{errorMsg}}</div>
+        <form action="/login" method="post" class='text-left'>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" class="form-control" name="email" required>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" class="form-control" name="password" required />
+            </div>
+    
+            <button type="submit" class="btn btn-login">Login</button>
+            <p>Need an account? <a href="/signup">Sign up</a></p>
+        </form>
+    </div>
+</div>

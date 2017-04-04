@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Book Trading Club</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="/" />
+    <link href="./components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="./components/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link rel='stylesheet' href='./stylesheets/style.css' />
+  </head>
+  <body ng-app="booktrading" class='ng-cloak'>
+    <nav class="nav navbar-inverse navbar-fixed-top" role="navigation" ng-controller="MainCtrl">
+      <div class="container">
+      <div class='navbar-header'>
+        <a class="navbar-brand" href="/">Home</a>
+      </div>
+          <ul class="nav navbar-nav navbar-right">
+            <li ng-hide='showing'><a href='/login'>Login</a></li>
+            <li ng-hide='showing'><a href='/signup'>Signup</a></li>
+            <li ng-show='showing'><a href="/profile">Profile</a></li>
+            <li ng-show='showing'><form action="/logout" method="get"><input class='logout' type="submit" value="Logout"></form></li>
+          </ul>
+      </div>
+    </nav>
+    
+    <div ng-view ></div>
+    
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="./components/jquery/dist/jquery.min.js"></script>
+    <script src="./components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="./components/angular/angular.min.js"></script>
+    <script src="./components/angular-route/angular-route.min.js"></script>
+    <script src="./components/angular-resource/angular-resource.min.js"></script>
+    <script src="./javascripts/angularApp.js"></script>  
+  </body>
+</html>

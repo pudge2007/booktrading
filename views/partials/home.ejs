@@ -1,0 +1,20 @@
+<div class="page-home">
+  <div class="container">  
+    <div class="row">
+      <div class="col-xs-12">
+        <ul>
+          <li class='book' ng-repeat="b in books">
+            <img ng-src="{{b.img}}">
+            <div class="content">
+              <div>
+                <p class='title'>{{b.title}}</p>
+                <p class="author">{{b.author}}</p>
+                <p class='trade'>trade</p>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
