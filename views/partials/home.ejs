@@ -9,7 +9,11 @@
               <div>
                 <p class='title'>{{b.title}}</p>
                 <p class="author">{{b.author}}</p>
-                <p class='trade'>trade</p>
+                <div ng-show="disabled === false">
+                  <p class='trade' ng-hide="checkUs === b.username || b.traded === true" ng-click='trade(b._id)'>trade</p>
+                  <p class='trade' ng-show="checkUs === b.username" style='cursor:default'>your book</p>
+                  <p class='req' ng-show="b.traded === true">your request has been send</p>
+                </div>
               </div>
             </div>
           </li>

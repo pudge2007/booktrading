@@ -70,7 +70,7 @@ app.config(['$routeProvider', '$locationProvider', '$httpProvider', function($ro
 
 }]);
 
-app.run(['$http', '$rootScope', 'getUsername', function($http, $rootScope, getUsername){
+app.run(['$http', '$rootScope', 'getUsername', 'socket', function($http, $rootScope, getUsername, socket){
   getUsername.then(function(response) {
     $rootScope.username = response.data;
   })
@@ -86,8 +86,19 @@ app.controller('MainCtrl', ['$scope', '$rootScope','getUsername', function($scop
 //all polls to index page
 app.controller('ListCtrl', ['$scope','$http', '$rootScope','socket', function($scope, $http, $rootScope, socket){
   
+  $scope.checkUs = $rootScope.username;
+  (($scope.checkUs !== '0') && ($scope.checkUs !== undefined)) ? $scope.disabled = false : $scope.disabled = true;
+  
   $http.get('/books').then(function(response){
     $scope.books = response.data;
+    $scope.books.forEach(function(item) {
+      if(!$scope.disabled) {
+        item.traded = item.trade.some(function (u) {
+          return u.user === $scope.checkUs;
+        })
+      } else
+        item.traded = false;
+    })
   });
   
   socket.on('getBook', function(data) {
@@ -104,37 +115,22 @@ app.controller('ListCtrl', ['$scope','$http', '$rootScope','socket', function($s
     }
   });
   
-  $scope.repost = function (id) {
+  $scope.trade = function (id) {
     if(!$scope.disabled){
-      var pinReposted = {id: id, user: $scope.checkUs}
-      socket.emit('setRepost', pinReposted);
+      var tradeBook = {id: id, user: $scope.checkUs}
+      socket.emit('trade', tradeBook);
     }
   }
   
-  socket.on('getLikes', function(data) {
-    if(data.status === 'add') {
-      $scope.pins.forEach(function(item) {
-        if(item._id === data.id) {
-          item.totalLikes++;
-          item.likes = data.likes;
-        }
-        item.voted = item.likes.some(function (like) {
-          return like.user === $scope.checkUs;
-        })
+  socket.on('trade', function(data) {    
+    $scope.books = data;
+    $scope.books.forEach(function(item) {
+      item.traded = item.trade.some(function (u) {
+        return u.user === $scope.checkUs;
       })
-    }
-    else if(data.status === 'delete') {
-      $scope.pins.forEach(function(item) {
-        if(item._id === data.id) {
-          item.totalLikes--;
-          item.likes = data.likes;
-        }
-        item.voted = item.likes.some(function (like) {
-          return like.user === $scope.checkUs;
-        })
-      })
-    }
+    })
   });
+  
 }]);
 
 //profile controller
@@ -146,7 +142,7 @@ app.controller('UserCtrl', ['$scope', '$rootScope', '$route', '$http','socket', 
     $scope.city = response.data.myProfile.local.city;
     $scope.state = response.data.myProfile.local.state;
     $scope.userBooks = response.data.myBooks;
-    $scope.userReposts = response.data.myReposts;
+    $scope.userTrades = response.data.myTrades;
   })
   
   $scope.addBook = function() {
@@ -163,8 +159,8 @@ app.controller('UserCtrl', ['$scope', '$rootScope', '$route', '$http','socket', 
     });
   }
   
-  $scope.deleteRepost = function(id){
-    socket.emit('deleteRepost', {id:id, user: $scope.username}, function(data) {
+  $scope.deleteReq = function(id){
+    socket.emit('deleteReq', {id:id, user: $scope.username}, function(data) {
       if(data) $route.reload();
     });
   }
@@ -182,6 +178,10 @@ app.controller('UserCtrl', ['$scope', '$rootScope', '$route', '$http','socket', 
       $location.path('/profile');
     })
   }
+  
+  socket.on('deleteReqFrom', function(data) {
+    console.log(data)
+  })
     
 }]);
 

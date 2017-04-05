@@ -38,8 +38,8 @@ module.exports = function (app, passport) {
           return callback(err, user);
         });
       },
-      myReposts: function(callback){
-        return Book.find({'reposts':{$elemMatch: {'user':req.user.local.username}}}, function(err, rep) {
+      myTrades: function(callback){
+        return Book.find({'trade':{$elemMatch: {'user':req.user.local.username}}}, function(err, rep) {
           return callback(err, rep);
         });
       },

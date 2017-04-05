@@ -21,6 +21,7 @@ h2 {
 }
 
 a {
+  cursor: pointer;
   color: #96d0e6;
 }
 
@@ -75,16 +76,13 @@ input.logout:focus {
   position: relative;
   width: 150px;
   margin-bottom: 20px;
-  -webkit-box-shadow: 0px 0px 3px 0px rgba(186,186,186,1);
-  -moz-box-shadow: 0px 0px 3px 0px rgba(186,186,186,1);
-  box-shadow: 0px 0px 3px 0px rgba(186,186,186,1);
 }
 
 .book img {
   width: 100%;
 }
 
-.book span.delete {
+span.delete {
   font-size: 20px;
   cursor: pointer;
   position: absolute;
@@ -113,14 +111,14 @@ input.logout:focus {
   opacity: 1;
 }
 
-.book .content p.title{
+p.title{
   font-size: 12px;
   text-transform: uppercase;
   color: #fff;
   font-weight: bold;
 }
 
-.book .content p.author{
+p.author{
   font-size: 11px;
   color: #fff;
   font-weight: normal;
@@ -136,6 +134,12 @@ input.logout:focus {
   border-radius: 4px;
   border: 1px solid;
   font-weight: normal;
+}
+
+.book .content p.req {
+  font-size: 14px;
+  color: #ea3167;
+  text-align: center;
 }
 
 .btn-vote {
@@ -171,14 +175,48 @@ input.logout:focus {
   width: 346px;
 } 
 
-.page-profile .your_books ul,
-.all_books ul{
+.page-profile .your_books ul{
   padding: 0;
   display: flex;
   justify-content: space-between;
   flex-flow: row wrap;
   padding-right: 100px;
   margin-top: 40px;
+}
+
+.all_books ul {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.all_books ul li{
+  margin: auto 17px;
+  margin-bottom: 30px;
+}
+
+.page-profile .trade_block {
+  padding: 5px 15px;
+  border-radius: 4px;
+  position: relative;
+  border: 1px solid #96d0e6;
+  background: #fff;
+  margin-bottom: 10px;
+}
+
+.page-profile .trade_block p.title {
+  color: #96d0e6;
+  font-weight: bold;
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.page-profile .trade_block p.desc {
+  font-size: 12px;
+  margin-bottom: 3px;
+}
+
+.page-profile .tab-content {
+  margin-top: 20px;
 }
 
 .page-login {

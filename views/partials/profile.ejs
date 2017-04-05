@@ -23,8 +23,37 @@
             </div>
           </div>
           <div class='col-sm-5'>
-            <button class="btn btn-vote" data-toggle="collapse" data-target="#settings">Settings</button>
-            <div class="collapse" id="settings">...</div>
+            <ul class="nav nav-tabs">
+              <li class="active"><a data-toggle="tab" data-target="#panel1">My Requests</a></li>
+              <li><a data-toggle="tab" data-target="#panel2">Requests for me</a></li>
+            </ul>
+            <div class="tab-content">
+              <div id="panel1" class="tab-pane fade in active">
+                <div>
+                  <div ng-repeat="trade in userTrades">
+                    <div class="trade_block">
+                      <p class='title'>{{trade.title}}</p>
+                      <p class='desc'>added by {{trade.username}}</p>
+                      <span class='delete' ng-click='deleteReq(trade._id)'>
+                        <i class="fa fa-times" aria-hidden="true"></i>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div id="panel2" class="tab-pane fade">
+                <div>
+                  <div ng-repeat="bo in userBooks">
+                    <div ng-repeat="t in bo.trade">
+                      <div class="trade_block">
+                        <p class='title'>{{bo.title}}</p>
+                        <p class='desc'>from {{t.user}}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
